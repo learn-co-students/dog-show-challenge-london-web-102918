@@ -17,6 +17,12 @@ h1, h2, h3, h4 {
 th {
   font-weight: bold;
 }
+tr {
+  padding: 10px 25px;
+}
+td {
+  padding: 10px 25px;
+}
 
 .center {
   text-align: center;
@@ -46,4 +52,13 @@ th {
   border-style: solid;
   border-width: 1px;
   border-color: grey;
+}
+button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 5px 25px;
+    text-decoration: none;
+    margin: 2px 2px;
+    cursor: pointer;
 }
