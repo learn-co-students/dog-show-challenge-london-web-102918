@@ -1,10 +1,7 @@
 const dogsTable = document.getElementById('table-body')
 const dogsURL = 'http://127.0.0.1:3000/dogs'
-// TODO: WHY IS THE CONST NOT WORKING (null values)
-// const dogForm = document.getElementById('dog-form')
-// const updateDog = dogForm.querySelector('input[type=submit]')
-
-// TODO: DOGS NOT SAVING
+const dogForm = document.getElementById('dog-form')
+const updateDog = document.querySelector('input[type=submit]')
 
 
 let formID = document.querySelector('#id')
@@ -54,39 +51,44 @@ function renderDogs(dogsArray) {
 }
 
 function editDog(id) {
-  console.log("IM IN ");
   let dog = document.getElementById(`${id}`)
   let dogName = dog.querySelector('.name').innerText
   let dogBreed = dog.querySelector('.breed').innerText
   let dogSex = dog.querySelector('.sex').innerText
-  let dogForm = document.getElementById('dog-form')
-  const updateDog = document.querySelector('input[type=submit]')
+
+
   dogForm.querySelector('input[name=name]').value = dogName
   dogForm.querySelector('input[name=breed]').value = dogBreed
   dogForm.querySelector('input[name=sex]').value = dogSex
-  document.querySelector('input[type=submit]').addEventListener('click', console.log('YO'))
-}
+  }
 
 function saveDog(id) {
   let formName = document.querySelector('input[name=name]').value
   let formBreed = document.querySelector('input[name=breed]').value
   let formSex = document.querySelector('input[name=sex]').value
-  console.log(`${formName}`);
-  console.log(`${formBreed}`);
-  console.log(`${formSex}`);
-  console.log(`${id}`);
-  fetch(`${dogsURL}/${id}`, {
+  fetch(`${dogsURL}/${id.value}`, {
     method: 'PATCH',
     headers: {
       "Content-Type": 'application/json',
-      Accept: "application/json"
+      "Accept": "application/json"
     },
     body: JSON.stringify({
       name: formName,
       breed: formBreed,
       sex: formSex
     })
+  }).then((response) => response.json())
+  .then((dog) => {
+    let dogRow = document.getElementById(`${dog.id}`)
+    dogRow.querySelector('.name').innerText = dog.name
+    dogRow.querySelector('.breed').innerText = dog.breed
+    dogRow.querySelector('.sex').innerText = dog.sex
   })
-  fetchDogs
+
 }
 fetchDogs()
+
+dogForm.querySelector('input[type=submit]').addEventListener('click', (event) => {
+  console.log(event);
+  event.preventDefault()
+  saveDog(id)})
